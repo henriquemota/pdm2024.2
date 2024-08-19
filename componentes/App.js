@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
 // importacao da imagem
 import logo from './assets/logo.jpg'
 
@@ -13,7 +13,12 @@ export default function App() {
 		container: { flex: 1, justifyContent: 'center', gap: 4 },
 		image: { height: 100, width: 100, alignSelf: 'center' },
 		text: { alignSelf: 'center' },
+		textInput: { borderWidth: 1, padding: 4 },
 	})
+
+	function _handleText(text) {
+		console.log(text)
+	}
 
 	return (
 		<View style={style.container}>
@@ -21,6 +26,7 @@ export default function App() {
 			<Text style={style.text}>Menesagem encontrada na Internet</Text>
 			<Image source={logo} style={style.image} />
 			<Text style={style.text}>Menesagem encontrada nos assets</Text>
+			<TextInput style={style.textInput} keyboardType='email-address' onChangeText={_handleText} />
 		</View>
 	)
 }
