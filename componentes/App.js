@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
 // importacao da imagem
 import logo from './assets/logo.jpg'
 
@@ -28,6 +28,7 @@ export default function App() {
 
 	return (
 		<View style={style.container}>
+			<ActivityIndicator animating={true} size={'large'} />
 			<Image source={img} style={style.image} />
 			<Text style={style.text}>Menesagem encontrada na Internet</Text>
 			<Image source={logo} style={style.image} />
