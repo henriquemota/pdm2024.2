@@ -1,4 +1,5 @@
-# Disciplina de dispositivos móveis 
-# Centro Universitário Estácio do Ceará 
+# Disciplina de dispositivos móveis
 
-## Prof Henrique Mota
+Arquivos da disciplina de dispositivos móveis do Centro Universitário Estácio do Ceará
+Prof Henrique Mota
+profhenriquemota@gmail.com
