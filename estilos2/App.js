@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function App() {
@@ -8,9 +8,7 @@ export default function App() {
 
 	const estilos = StyleSheet.create({
 		container: {
-			width: width,
-			height: height,
-			justifyContent: 'center',
+			flex: 1,
 			alignItems: 'center',
 			gap: 16,
 		},
@@ -25,20 +23,46 @@ export default function App() {
 		},
 	})
 
+	const data = []
+	for (let i = 0; i < 100; i++) data.push(`Aluno - Matrícula ${String(Math.random()).replace('.', '')}`)
+
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={{ flex: 1 }}>
+			<Menu />
 			<View style={estilos.container}>
-				<ActionButton icon='user-o' label='Alunos' />
-				<ActionButton icon='file-movie-o' label='Aulas' />
-				<ActionButton icon='file-pdf-o' label='Arquivos' />
+				<ScrollView>
+					{data.map((el, ix) => (
+						<TouchableOpacity key={ix}>
+							<Text>{el}</Text>
+							<FontAwesome name='bars' size={24} color='black' />
+						</TouchableOpacity>
+					))}
+				</ScrollView>
 			</View>
 		</SafeAreaView>
 	)
 }
 
-function ActionButton({ icon, label }) {
+function Menu() {
+	return (
+		<View>
+			<ScrollView horizontal>
+				<ActionButton icon='user-o' label='Alunos' onPress={() => Alert.alert('Atenção', 'Estou funcionando')} />
+				<ActionButton icon='file-movie-o' label='Aulas' />
+				<ActionButton icon='file-pdf-o' label='Arquivos' />
+				<ActionButton icon='user-o' label='Alunos' />
+				<ActionButton icon='file-movie-o' label='Aulas' />
+				<ActionButton icon='file-pdf-o' label='Arquivos' />
+				<ActionButton icon='user-o' label='Alunos' />
+			</ScrollView>
+		</View>
+	)
+}
+
+function ActionButton({ icon, label, onPress }) {
 	const estilos = StyleSheet.create({
 		box: {
+			margin: 4,
 			height: 80,
 			width: 80,
 			borderRadius: 8,
@@ -49,7 +73,7 @@ function ActionButton({ icon, label }) {
 		},
 	})
 	return (
-		<TouchableOpacity style={[estilos.box]}>
+		<TouchableOpacity style={[estilos.box]} onPress={onPress}>
 			<Text>{label}</Text>
 			<FontAwesome name={icon} size={24} color='black' />
 		</TouchableOpacity>
