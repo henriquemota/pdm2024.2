@@ -1,6 +1,6 @@
 import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function App() {
@@ -45,11 +45,19 @@ export default function App() {
 				</ScrollView>
 			</View>
 			{/* Dados gerais */}
+			<FlatList
+				style={{ width: width }}
+				data={data}
+				renderItem={({ item }) => <ItemList nome={item} />}
+				keyExtractor={(item) => item}
+			/>
+			{/* 
 			<ScrollView style={{ width: width }}>
 				{data.map((el, ix) => (
 					<ItemList key={ix} nome={el} />
 				))}
-			</ScrollView>
+			</ScrollView> 
+			*/}
 		</SafeAreaView>
 	)
 }
