@@ -1,81 +1,93 @@
 import { FontAwesome } from '@expo/vector-icons'
 import React from 'react'
-import { Alert, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function App() {
-	const { width, height } = Dimensions.get('screen')
-
+	const { height, width } = Dimensions.get('screen')
 	const estilos = StyleSheet.create({
 		container: {
-			flex: 1,
+			height: height,
+			backgroundColor: '#c3c3c3',
 			alignItems: 'center',
 			gap: 16,
 		},
-		box: {
-			height: 80,
-			width: 80,
-			borderRadius: 8,
-			borderWidth: 1,
-			flexDirection: 'column',
-			alignItems: 'center',
-			justifyContent: 'space-around',
+		vermelho: {
+			backgroundColor: 'red',
+		},
+		branco: {
+			backgroundColor: 'white',
+		},
+		azul: {
+			backgroundColor: 'blue',
 		},
 	})
 
 	const data = []
-	for (let i = 0; i < 100; i++) data.push(`Aluno - Matrícula ${String(Math.random()).replace('.', '')}`)
+	for (let i = 0; i < 50; i++) data.push(`ALUNO - MATRICULA ${String(Math.random() * (i + 1)).replace('.', '')}`)
+
+	const buttons = [
+		{ bgColor: estilos.vermelho, icon: 'user', iconColor: 'white' },
+		{ bgColor: estilos.branco, icon: 'star', iconColor: 'blue' },
+		{ bgColor: estilos.azul, icon: 'film', iconColor: 'white' },
+		{ bgColor: estilos.vermelho, icon: 'user', iconColor: 'white' },
+		{ bgColor: estilos.branco, icon: 'star', iconColor: 'blue' },
+	]
 
 	return (
-		<SafeAreaView style={{ flex: 1 }}>
-			<Menu />
-			<View style={estilos.container}>
-				<ScrollView>
-					{data.map((el, ix) => (
-						<TouchableOpacity key={ix}>
-							<Text>{el}</Text>
-							<FontAwesome name='bars' size={24} color='black' />
-						</TouchableOpacity>
+		<SafeAreaView style={estilos.container}>
+			{/* Menu Principal */}
+			<View style={{ height: 80 }}>
+				<ScrollView horizontal>
+					{buttons.map((el, ix) => (
+						<ActionButton key={ix} bgColor={el.bgColor} icon={el.icon} iconColor={el.iconColor} />
 					))}
 				</ScrollView>
 			</View>
+			{/* Dados gerais */}
+			<ScrollView style={{ width: width }}>
+				{data.map((el, ix) => (
+					<ItemList key={ix} nome={el} />
+				))}
+			</ScrollView>
 		</SafeAreaView>
 	)
 }
 
-function Menu() {
-	return (
-		<View>
-			<ScrollView horizontal>
-				<ActionButton icon='user-o' label='Alunos' onPress={() => Alert.alert('Atenção', 'Estou funcionando')} />
-				<ActionButton icon='file-movie-o' label='Aulas' />
-				<ActionButton icon='file-pdf-o' label='Arquivos' />
-				<ActionButton icon='user-o' label='Alunos' />
-				<ActionButton icon='file-movie-o' label='Aulas' />
-				<ActionButton icon='file-pdf-o' label='Arquivos' />
-				<ActionButton icon='user-o' label='Alunos' />
-			</ScrollView>
-		</View>
-	)
-}
-
-function ActionButton({ icon, label, onPress }) {
+function ItemList({ nome }) {
 	const estilos = StyleSheet.create({
-		box: {
-			margin: 4,
-			height: 80,
-			width: 80,
-			borderRadius: 8,
-			borderWidth: 1,
-			flexDirection: 'column',
+		button: {
+			flexDirection: 'row',
+			justifyContent: 'space-between',
 			alignItems: 'center',
-			justifyContent: 'space-around',
+			padding: 8,
+			borderBottomWidth: 1,
+			backgroundColor: 'rgba(255,123,50,0.6)',
+			marginVertical: 4,
 		},
 	})
 	return (
-		<TouchableOpacity style={[estilos.box]} onPress={onPress}>
-			<Text>{label}</Text>
-			<FontAwesome name={icon} size={24} color='black' />
+		<TouchableOpacity style={estilos.button}>
+			<Text>{nome}</Text>
+			<FontAwesome name='bars' size={40} color='black' />
+		</TouchableOpacity>
+	)
+}
+
+function ActionButton({ bgColor, icon, iconColor }) {
+	const estilos = StyleSheet.create({
+		box: {
+			height: 80,
+			width: 80,
+			borderRadius: 4,
+			marginHorizontal: 2,
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
+	})
+	return (
+		<TouchableOpacity style={[estilos.box, bgColor]}>
+			<FontAwesome name={icon} size={40} color={iconColor} />
 		</TouchableOpacity>
 	)
 }
