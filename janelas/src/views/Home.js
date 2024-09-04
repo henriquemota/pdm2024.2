@@ -1,31 +1,20 @@
 import { AntDesign } from '@expo/vector-icons'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import data from '../data'
 
 const Home = ({ setLogged }) => {
+	const [database, setDatase] = useState([])
+	const [search, setSearch] = useState('')
 	const { height, width } = Dimensions.get('screen')
+
+	useEffect(() => {
+		setDatase(data)
+	}, [])
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<View style={{ flexDirection: 'row', marginBottom: 8 }}>
-				<TextInput
-					style={{
-						borderWidth: 1,
-						borderRadius: 4,
-						backgroundColor: 'rgba(0,0,0,0.1)',
-						flex: 1,
-						padding: 8,
-						margin: 8,
-					}}
-					placeholder='Informe seu login'
-					keyboardType='email-address'
-				/>
-				<TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}>
-					<AntDesign name='search1' size={24} color='black' />
-				</TouchableOpacity>
-			</View>
 			<View style={{ margin: 4 }}>
 				<ScrollView horizontal>
 					<TouchableOpacity
@@ -54,9 +43,33 @@ const Home = ({ setLogged }) => {
 					</TouchableOpacity>
 				</ScrollView>
 			</View>
+			<View style={{ flexDirection: 'row', marginBottom: 8 }}>
+				<TextInput
+					style={{
+						borderWidth: 1,
+						borderRadius: 4,
+						backgroundColor: 'rgba(0,0,0,0.1)',
+						flex: 1,
+						padding: 8,
+						margin: 8,
+					}}
+					placeholder='Filtre os dados'
+					keyboardType='email-address'
+					onChangeText={setSearch}
+				/>
+				<TouchableOpacity
+					style={{ justifyContent: 'center', alignItems: 'center', margin: 8 }}
+					onPress={() => {
+						if (search !== '') setDatase(database.filter(({ description }) => description.includes(search)))
+						else setDatase(data)
+					}}
+				>
+					<AntDesign name='search1' size={24} color='black' />
+				</TouchableOpacity>
+			</View>
 			<View style={{ flex: 1 }}>
 				<ScrollView>
-					{data.map((el, ix) => (
+					{database.map((el, ix) => (
 						<View key={ix} style={{ margin: 4, flexDirection: 'row' }}>
 							<Image
 								source={{ uri: el.img }}
