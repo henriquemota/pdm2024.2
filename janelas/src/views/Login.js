@@ -2,31 +2,22 @@ import { AntDesign } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { Dimensions, Image, Text, TextInput, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import user from '../../assets/user.png'
 
 const Login = ({ setLogged }) => {
-	const [usuario, setUsuario] = useState('')
+	const [login, setLogin] = useState('')
 	const [senha, setSenha] = useState('')
 	const { height, width } = Dimensions.get('screen')
-
-	const auth = () => {
-		if (usuario === 'admin' && senha === 'senha') {
-			setLogged(true)
-		} else {
-			setLogged(false)
-		}
-	}
 
 	return (
 		<SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 			<Image
-				source={user}
+				source={{ uri: 'https://static.vecteezy.com/ti/vetor-gratis/t2/439863-icone-de-usuarios-de-gratis-vetor.jpg' }}
 				style={{
 					height: 160,
 					width: 160,
-					borderRadius: 80,
-					borderWidth: 1,
-					borderColor: '#000',
+					// borderRadius: 80,
+					// borderWidth: 1,
+					// borderColor: '#000',
 				}}
 			/>
 			<TextInput
@@ -40,7 +31,7 @@ const Login = ({ setLogged }) => {
 				}}
 				placeholder='Informe seu login'
 				keyboardType='email-address'
-				onChangeText={setUsuario}
+				onChangeText={setLogin}
 			/>
 			<TextInput
 				style={{
@@ -57,7 +48,10 @@ const Login = ({ setLogged }) => {
 			/>
 			<TouchableOpacity
 				style={{ flexDirection: 'row', gap: 8, padding: 12, borderWidth: 1, borderRadius: 8 }}
-				onPress={auth}
+				onPress={() => {
+					if (login === 'admin' && senha === 'senha') setLogged(true)
+					else setLogged(false)
+				}}
 			>
 				<Text>Login</Text>
 				<AntDesign name='login' size={24} color='black' />
@@ -67,3 +61,4 @@ const Login = ({ setLogged }) => {
 }
 
 export default Login
+export { Login }

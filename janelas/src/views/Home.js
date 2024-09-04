@@ -1,8 +1,8 @@
 import { AntDesign } from '@expo/vector-icons'
 import React from 'react'
-import { Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Dimensions, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import data from '../data/data'
+import data from '../data'
 
 const Home = ({ setLogged }) => {
 	const { height, width } = Dimensions.get('screen')
@@ -39,7 +39,15 @@ const Home = ({ setLogged }) => {
 							borderRadius: 8,
 							margin: 2,
 						}}
-						onPress={() => setLogged(false)}
+						onPress={() => {
+							Alert.alert('Atenção', 'Deseja realmente sair?', [
+								{
+									text: 'Não',
+									style: 'cancel',
+								},
+								{ text: 'Sim', onPress: () => setLogged(false) },
+							])
+						}}
 					>
 						<AntDesign name='logout' size={24} color='black' />
 						<Text>Sair</Text>
@@ -49,13 +57,15 @@ const Home = ({ setLogged }) => {
 			<View style={{ flex: 1 }}>
 				<ScrollView>
 					{data.map((el, ix) => (
-						<View style={{ margin: 4, flexDirection: 'row' }}>
+						<View key={ix} style={{ margin: 4, flexDirection: 'row' }}>
 							<Image
-								source={el.img}
+								source={{ uri: el.img }}
 								style={{
 									height: 80,
 									width: 80,
+									objectFit: 'contain',
 									borderWidth: 1,
+									borderRadius: 8,
 									borderColor: '#000',
 								}}
 							/>
@@ -72,3 +82,4 @@ const Home = ({ setLogged }) => {
 }
 
 export default Home
+export { Home }
