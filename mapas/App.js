@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, TextInput } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -8,48 +7,65 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 export default function App() {
 	const [loading, setLoading] = useState(false)
 	const [coordenada, setCoordenada] = useState({})
+	const [cep, setCEP] = useState('')
 
-	const buscaEndereco = (cep) => {
+	useEffect(() => {
 		if (cep.length === 8) {
 			setLoading(true)
 			axios
 				.get('https://cep.awesomeapi.com.br/json/' + cep)
-				.then(({ data, status }) => {
-					status === 200
-						? setCoordenada({ latitude: Number(data.lat), longitude: Number(data.lng) })
-						: setCoordenada({})
-				})
-				.catch(() => setCoordenada({}))
+				.then(({ data }) =>
+					setCoordenada({
+						endereco: data.address,
+						latitude: Number(data.lat),
+						longitude: Number(data.lng),
+					})
+				)
+				.catch((err) => setCoordenada({}))
 				.finally(() => setLoading(false))
 		}
-	}
+	}, [cep])
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
-			<StatusBar style='auto' />
 			<ActivityIndicator animating={loading} />
 			<TextInput
-				style={{ borderWidth: 1, borderRadius: 4, margin: 8, padding: 8 }}
-				placeholder='informe seu cep aqui'
-				keyboardType='numeric'
-				onChangeText={buscaEndereco}
+				style={{ borderWidth: 1, padding: 8, borderRadius: 4, margin: 8 }}
+				placeholder='informe o cep desejado'
+				keyboardType='number-pad'
 				maxLength={8}
+				onChangeText={setCEP}
 			/>
 			<MapView
 				style={{ flex: 1 }}
-				// liteMode
-				showsUserLocation
-				zoomEnabled
-				zoomTapEnabled
-				scrollEnabled
 				initialRegion={{
 					latitude: -3.7617664,
 					longitude: -38.4958464,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0922,
+					latitudeDelta: 0.9435,
+					longitudeDelta: 0.9435,
 				}}
+				region={
+					'latitude' in coordenada
+						? {
+								latitude: coordenada.latitude,
+								longitude: coordenada.longitude,
+								latitudeDelta: 0.9435,
+								longitudeDelta: 0.9435,
+						  }
+						: {
+								latitude: -3.7617664,
+								longitude: -38.4958464,
+								latitudeDelta: 0.9435,
+								longitudeDelta: 0.9435,
+						  }
+				}
 			>
-				{'latitude' in coordenada && <Marker coordinate={coordenada} title={''} description={''} />}
+				{'latitude' in coordenada && (
+					<Marker
+						title={coordenada.endereco}
+						coordinate={{ latitude: coordenada.latitude, longitude: coordenada.longitude }}
+					/>
+				)}
 			</MapView>
 		</SafeAreaView>
 	)
