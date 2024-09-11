@@ -8,6 +8,12 @@ export default function App() {
 	const [loading, setLoading] = useState(false)
 	const [coordenada, setCoordenada] = useState({})
 	const [cep, setCEP] = useState('')
+	const initialRegion = {
+		latitude: -3.7617664,
+		longitude: -38.4958464,
+		latitudeDelta: 0.0922,
+		longitudeDelta: 0.0421,
+	}
 
 	useEffect(() => {
 		if (cep.length === 8) {
@@ -38,26 +44,15 @@ export default function App() {
 			/>
 			<MapView
 				style={{ flex: 1 }}
-				initialRegion={{
-					latitude: -3.7617664,
-					longitude: -38.4958464,
-					latitudeDelta: 0.9435,
-					longitudeDelta: 0.9435,
-				}}
+				initialRegion={initialRegion}
 				region={
 					'latitude' in coordenada
 						? {
+								...initialRegion,
 								latitude: coordenada.latitude,
 								longitude: coordenada.longitude,
-								latitudeDelta: 0.9435,
-								longitudeDelta: 0.9435,
 						  }
-						: {
-								latitude: -3.7617664,
-								longitude: -38.4958464,
-								latitudeDelta: 0.9435,
-								longitudeDelta: 0.9435,
-						  }
+						: initialRegion
 				}
 			>
 				{'latitude' in coordenada && (
