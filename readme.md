@@ -7,4 +7,5 @@ profhenriquemota@gmail.com
 # Referências importantes
 
 - API para exemplos com AXIOS https://swapi.dev
+- Documentação oficial do React Navigation https://reactnavigation.org/docs/getting-started
 - Documentação do novo modelo de navegação - https://docs.expo.dev/develop/file-based-routing/
