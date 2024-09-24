@@ -6,4 +6,5 @@ profhenriquemota@gmail.com
 
 # Referências importantes
 
+- API para exemplos com AXIOS https://swapi.dev
 - Documentação do novo modelo de navegação - https://docs.expo.dev/develop/file-based-routing/
