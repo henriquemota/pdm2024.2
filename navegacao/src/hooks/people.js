@@ -1,23 +1,24 @@
 import axios from 'axios'
-import config from '../config'
+import settings from '../settings'
 
 const usePeople = () => {
-	const { API_URL } = config
+	const { STARWARS_API } = settings
 
 	const getPeople = async () => {
 		try {
-			const { data } = await axios.get(API_URL + '/people')
+			const { data } = await axios.get(STARWARS_API + '/people')
 			return data
 		} catch (error) {
-			throw new Error('Erro ao recuperar os dados da API.')
+			throw new Error('Erro ao retornar a lista de personagens')
 		}
 	}
+
 	const getPerson = async (id) => {
 		try {
-			const { data } = await axios.get(API_URL + '/people/' + id)
+			const { data } = await axios.get(STARWARS_API + '/people/' + id)
 			return data
 		} catch (error) {
-			throw new Error('Erro ao recuperar os dados da API.')
+			throw new Error('Erro ao retornar o personagem')
 		}
 	}
 

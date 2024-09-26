@@ -1,21 +1,17 @@
+import { Avatar, Button, Stack, TextInput } from '@react-native-material/core'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Text, TextInput } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Button from '../components/button'
-import styles from '../styles'
 
 const Login = () => {
 	const { navigate } = useNavigation()
 
 	return (
-		<SafeAreaView style={[{ justifyContent: 'center' }, styles.container]}>
-			<Text>Informe seu login</Text>
-			<TextInput style={styles.textInput} />
-			<Text>Informe sua senha</Text>
-			<TextInput style={styles.textInput} />
-			<Button onPress={() => navigate('home')} text='Login' />
-		</SafeAreaView>
+		<Stack spacing={8} fill style={{ margin: 16, justifyContent: 'center' }}>
+			<Avatar label='Star Wars' style={{ alignSelf: 'center', marginBottom: 32 }} />
+			<TextInput label='Informe seu login' />
+			<TextInput label='Informe sua senha' />
+			<Button title='Login' onPress={() => navigate('home')} />
+		</Stack>
 	)
 }
 

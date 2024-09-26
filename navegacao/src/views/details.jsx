@@ -1,17 +1,37 @@
+import { ActivityIndicator, Button, Text } from '@react-native-material/core'
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { Text } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Button from '../components/button'
-import styles from '../styles'
+import usePeople from '../hooks/people'
 
-const Details = () => {
-	const { popToTop, goBack } = useNavigation()
+const Details = ({ route }) => {
+	const [loading, setLoading] = useState(false)
+	const [data, setData] = useState(null)
+	const { goBack } = useNavigation()
+	const { id = null } = route.params
+	const { getPerson } = usePeople()
+
+	useEffect(() => {
+		if (id) {
+			setLoading(true)
+			getPerson(id)
+				.then((e) => setData(e))
+				.catch((e) => {
+					setData(null)
+					Alert.alert('Erro', e)
+				})
+				.finally(() => setLoading(false))
+		}
+	}, [id])
+
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={{ flex: 1 }}>
+			<ActivityIndicator animating={loading} />
 			<Text>Details</Text>
-			<Button text='Vai para login' onPress={() => popToTop()} />
-			<Button text='Voltar para home' onPress={() => goBack()} />
+			{/* <Text>{JSON.stringify(data)}</Text> */}
+			<Text>Name: {data?.name}</Text>
+			<Button title='Voltar' onPress={() => goBack()} />
 		</SafeAreaView>
 	)
 }
