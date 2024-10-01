@@ -1,15 +1,14 @@
 import { ActivityIndicator, Button, Text } from '@react-native-material/core'
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import usePeople from '../hooks/people'
 
-const Details = ({ route }) => {
+const Details = ({ route: { params = {} } }) => {
 	const [loading, setLoading] = useState(false)
 	const [data, setData] = useState(null)
 	const { goBack } = useNavigation()
-	const { id = null } = route.params
+	const { id = null } = params
 	const { getPerson } = usePeople()
 
 	useEffect(() => {

@@ -10,7 +10,7 @@ const Login = () => {
 			<Avatar label='Star Wars' style={{ alignSelf: 'center', marginBottom: 32 }} />
 			<TextInput label='Informe seu login' />
 			<TextInput label='Informe sua senha' />
-			<Button title='Login' onPress={() => navigate('home')} />
+			<Button title='Login' onPress={() => navigate('bottomTab')} />
 		</Stack>
 	)
 }
