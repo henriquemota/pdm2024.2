@@ -5,9 +5,12 @@ const useAuth = () => {
 	const signin = async ({ email, password }) => {
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
-			console.log(userCredential)
+			const user = userCredential.user
+			return user
 		} catch (error) {
-			console.log(error)
+			const errorCode = error.code
+			const errorMessage = error.message
+			throw new Error('Usuário não localizado ou sena inválida.')
 		}
 	}
 

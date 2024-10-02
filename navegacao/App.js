@@ -8,25 +8,25 @@ import Home from './src/views/home'
 import Login from './src/views/login'
 
 const { Navigator, Screen } = createNativeStackNavigator()
-const { Navigator: BottomNavigator, Screen: BottomScreen } = createBottomTabNavigator()
+const { Navigator: TabNavigator, Screen: TabScreen } = createBottomTabNavigator()
 
 const App = () => {
 	return (
 		<NavigationContainer>
 			<Navigator screenOptions={{ headerShown: false }}>
 				<Screen name='login' component={Login} />
-				<Screen name='bottomTab' component={BottonTabs} />
+				<Screen name='tab' component={Tab} />
 			</Navigator>
 		</NavigationContainer>
 	)
 }
 
-const BottonTabs = () => {
+const Tab = () => {
 	return (
-		<BottomNavigator screenOptions={{ headerShown: false }}>
-			<BottomScreen name='home' component={Home} />
-			<BottomScreen name='details' component={Details} />
-		</BottomNavigator>
+		<TabNavigator screenOptions={{ headerShown: false }}>
+			<TabScreen name='home' component={Home} />
+			<TabScreen name='details' component={Details} />
+		</TabNavigator>
 	)
 }
 

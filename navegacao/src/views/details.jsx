@@ -28,7 +28,6 @@ const Details = ({ route: { params = {} } }) => {
 		<SafeAreaView style={{ flex: 1 }}>
 			<ActivityIndicator animating={loading} />
 			<Text>Details</Text>
-			{/* <Text>{JSON.stringify(data)}</Text> */}
 			<Text>Name: {data?.name}</Text>
 			<Button title='Voltar' onPress={() => goBack()} />
 		</SafeAreaView>
