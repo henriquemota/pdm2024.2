@@ -11,3 +11,4 @@ profhenriquemota@gmail.com
 - Documentação do novo modelo de navegação - https://docs.expo.dev/develop/file-based-routing
 - Documentação do material UI - https://rn-material.js.org/docs/getting-started
 - Documentação do firebase - https://firebase.google.com/docs/firestore/quickstart#web_1
+- Documentação falando sobre a utilização do .env no projeto React Native - https://docs.expo.dev/guides/environment-variables/
