@@ -7,9 +7,7 @@ const useTarefas = () => {
 	const saveData = async (data) => {
 		try {
 			await setDoc(doc(tarefasRef), { ...data })
-			await getData()
 		} catch (error) {
-			console.log(error)
 			throw new Error('Erro ao gravar dados.')
 		}
 	}
@@ -23,7 +21,6 @@ const useTarefas = () => {
 			querySnapshot.forEach((doc) => data.push({ id: doc.id, ...doc.data() }))
 			return data
 		} catch (error) {
-			console.log(error)
 			throw new Error('Erro ao recuperar dados.')
 		}
 	}

@@ -20,15 +20,20 @@ const Lista = () => {
 	return (
 		<SafeAreaView>
 			<ActivityIndicator animating={loading} />
-			<FlatList data={data} renderItem={({ item }) => <Item title={item.titulo} />} keyExtractor={(item) => item.id} />
+			<FlatList
+				data={data}
+				renderItem={({ item }) => <Item titulo={item.titulo} tarefa={item.tarefa} />}
+				keyExtractor={(item) => item.id}
+			/>
 		</SafeAreaView>
 	)
 }
 
-const Item = ({ title }) => {
+const Item = ({ titulo, tarefa }) => {
 	return (
 		<Stack m={4} spacing={4}>
-			<Text>{title}</Text>
+			<Text>{titulo}</Text>
+			<Text>{tarefa}</Text>
 		</Stack>
 	)
 }
