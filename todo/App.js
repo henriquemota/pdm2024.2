@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NativeBaseProvider } from 'native-base'
 import React from 'react'
 
 // importt as telas
@@ -13,12 +14,14 @@ const { Navigator: NavigatorStack, Screen: ScreenStack } = createNativeStackNavi
 
 const App = () => {
 	return (
-		<NavigationContainer>
-			<NavigatorStack>
-				<ScreenStack name='login' component={Login} />
-				<ScreenStack name='main' component={Menu} />
-			</NavigatorStack>
-		</NavigationContainer>
+		<NativeBaseProvider>
+			<NavigationContainer>
+				<NavigatorStack>
+					<ScreenStack name='login' component={Login} />
+					<ScreenStack name='main' component={Menu} />
+				</NavigatorStack>
+			</NavigationContainer>
+		</NativeBaseProvider>
 	)
 }
 

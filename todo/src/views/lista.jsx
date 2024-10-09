@@ -1,4 +1,4 @@
-import { ActivityIndicator, Stack, Text } from '@react-native-material/core'
+import { Text, View } from 'native-base'
 import React, { useEffect, useState } from 'react'
 import { Alert, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -19,11 +19,18 @@ const Lista = () => {
 
 	return (
 		<SafeAreaView>
-			<ActivityIndicator animating={loading} />
 			<FlatList
 				data={data}
 				renderItem={({ item }) => <Item titulo={item.titulo} tarefa={item.tarefa} />}
 				keyExtractor={(item) => item.id}
+				refreshing={loading}
+				onRefresh={() => {
+					setLoading(true)
+					getData()
+						.then((retorno) => setData(retorno))
+						.catch((err) => Alert.alert('Erro', err.message))
+						.finally(() => setLoading(false))
+				}}
 			/>
 		</SafeAreaView>
 	)
@@ -31,10 +38,16 @@ const Lista = () => {
 
 const Item = ({ titulo, tarefa }) => {
 	return (
-		<Stack m={4} spacing={4}>
-			<Text>{titulo}</Text>
-			<Text>{tarefa}</Text>
-		</Stack>
+		<React.Fragment>
+			<View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'row' }}>
+				<Text textAlign='left' m='1'>
+					{titulo}
+				</Text>
+				<Text textAlign='left' m='1'>
+					{tarefa}
+				</Text>
+			</View>
+		</React.Fragment>
 	)
 }
 

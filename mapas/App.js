@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 export default function App() {
 	const [loading, setLoading] = useState(false)
 	const [coordenada, setCoordenada] = useState({})
+	const [coordenadas, setCoordenadas] = useState([])
 	const [cep, setCEP] = useState('')
 	const initialRegion = {
 		latitude: -3.7617664,
@@ -14,6 +15,43 @@ export default function App() {
 		latitudeDelta: 0.0922,
 		longitudeDelta: 0.0421,
 	}
+
+	const getJobs = async () => {
+		try {
+			const url = 'https://jsearch.p.rapidapi.com/search?query=node.js+developer+in+fortelza'
+			const options = {
+				method: 'GET',
+				params: {
+					page: '1',
+					num_pages: '1',
+					date_posted: 'all',
+				},
+				headers: {
+					'x-rapidapi-key': '0594679197msh4c91a223a18a1ccp1aad56jsn9c4ce2de4ffa', // Substitua pela sua chave da API
+					'x-rapidapi-host': 'jsearch.p.rapidapi.com',
+				},
+			}
+			const {
+				data: { data },
+			} = await axios.get(url, options)
+			return data.map((e) => ({
+				titulo: e.job_title,
+				cidade: e.job_city,
+				pais: e.job_country,
+				latitude: e.job_latitude,
+				longitude: e.job_longitude,
+				link: e.job_apply_link,
+			}))
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	useEffect(() => {
+		getJobs()
+			.then((e) => setCoordenadas(e))
+			.finally(() => console.log('finalizou'))
+	}, [])
 
 	useEffect(() => {
 		if (cep.length === 8) {
@@ -55,12 +93,8 @@ export default function App() {
 						: initialRegion
 				}
 			>
-				{'latitude' in coordenada && (
-					<Marker
-						title={coordenada.endereco}
-						coordinate={{ latitude: coordenada.latitude, longitude: coordenada.longitude }}
-					/>
-				)}
+				{coordenadas.length &&
+					coordenadas.map((e, i) => <Marker key={i} coordinate={{ latitude: e.latitude, longitude: e.longitude }} />)}
 			</MapView>
 		</SafeAreaView>
 	)

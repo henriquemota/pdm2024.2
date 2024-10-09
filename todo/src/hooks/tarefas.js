@@ -6,7 +6,7 @@ const useTarefas = () => {
 
 	const saveData = async (data) => {
 		try {
-			await setDoc(doc(tarefasRef), { ...data })
+			await setDoc(doc(tarefasRef), data)
 		} catch (error) {
 			throw new Error('Erro ao gravar dados.')
 		}
