@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, TextInput } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -8,7 +8,6 @@ export default function App() {
 	const [loading, setLoading] = useState(false)
 	const [coordenada, setCoordenada] = useState({})
 	const [coordenadas, setCoordenadas] = useState([])
-	const [cep, setCEP] = useState('')
 	const initialRegion = {
 		latitude: -3.7617664,
 		longitude: -38.4958464,
@@ -49,52 +48,31 @@ export default function App() {
 
 	useEffect(() => {
 		getJobs()
-			.then((e) => setCoordenadas(e))
+			.then((e) => e.forEach((e) => console.log(e.longitude, e.latitude)))
 			.finally(() => console.log('finalizou'))
 	}, [])
-
-	useEffect(() => {
-		if (cep.length === 8) {
-			setLoading(true)
-			axios
-				.get('https://cep.awesomeapi.com.br/json/' + cep)
-				.then(({ data }) =>
-					setCoordenada({
-						endereco: data.address,
-						latitude: Number(data.lat),
-						longitude: Number(data.lng),
-					})
-				)
-				.catch((err) => setCoordenada({}))
-				.finally(() => setLoading(false))
-		}
-	}, [cep])
 
 	return (
 		<SafeAreaView style={{ flex: 1 }}>
 			<ActivityIndicator animating={loading} />
-			<TextInput
-				style={{ borderWidth: 1, padding: 8, borderRadius: 4, margin: 8 }}
-				placeholder='informe o cep desejado'
-				keyboardType='number-pad'
-				maxLength={8}
-				onChangeText={setCEP}
-			/>
 			<MapView
 				style={{ flex: 1 }}
 				initialRegion={initialRegion}
-				region={
-					'latitude' in coordenada
-						? {
-								...initialRegion,
-								latitude: coordenada.latitude,
-								longitude: coordenada.longitude,
-						  }
-						: initialRegion
-				}
+				// region={
+				// 	'latitude' in coordenada
+				// 		? {
+				// 				...initialRegion,
+				// 				latitude: coordenada.latitude,
+				// 				longitude: coordenada.longitude,
+				// 		  }
+				// 		: initialRegion
+				// }
+				region={initialRegion}
 			>
-				{coordenadas.length &&
-					coordenadas.map((e, i) => <Marker key={i} coordinate={{ latitude: e.latitude, longitude: e.longitude }} />)}
+				<Marker title='aqui' coordinate={{ latitude: -3.7327178, longitude: -38.526993 }} />
+				{/* {coordenadas.map((e, i) => (
+					<Marker key={i} title='aqui' coordinate={{ latitude: e.latitude, longitude: e.longitude }} />
+				))} */}
 			</MapView>
 		</SafeAreaView>
 	)
