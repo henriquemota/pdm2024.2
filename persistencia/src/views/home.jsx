@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import asyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
 import { Alert, View } from 'react-native'
 import { Button, Text, TextInput } from 'react-native-paper'
@@ -7,21 +7,27 @@ const Home = () => {
 	const [user, setUser] = useState(null)
 
 	useEffect(() => {
-		AsyncStorage.getItem('user').then((data) => setUser(JSON.parse(data)))
+		asyncStorage.getItem('usuario').then((data) => {
+			setUser(JSON.parse(data))
+			asyncStorage.removeItem('usuario')
+		})
 	}, [])
 
 	return (
 		<View style={{ padding: 4 }}>
-			<TextInput value={user?.login} />
+			<TextInput label='Informe o valor' />
+			<Text>{user?.nome}</Text>
+			<Text>{user?.perfil}</Text>
+			<Text>{JSON.stringify(user)}</Text>
 			<Button
+				mode='elevated'
 				onPress={async () => {
-					await AsyncStorage.setItem('user', JSON.stringify(user))
-					Alert.alert('Mensagem', 'Dados gravados com sucesso')
+					await asyncStorage.setItem('usuario', JSON.stringify(user))
+					Alert.alert('Atenção', 'Dados gravados com sucesso')
 				}}
 			>
-				Valor
+				Informacao
 			</Button>
-			<Text>{user && JSON.stringify(user)}</Text>
 		</View>
 	)
 }
