@@ -14,11 +14,13 @@ const Database = () => {
 		try {
 			const db = await SQLite.openDatabaseAsync('mydb.db')
 			await db.execAsync(`
+				-- DROP TABLE IF EXISTS contatos;
         CREATE TABLE IF NOT EXISTS contatos (
           id INTEGER PRIMARY KEY NOT NULL, 
           nome TEXT NOT NULL,
           telefone TEXT NOT NULL
-        );`)
+        );
+				`)
 			console.log('Database criado com sucesso.')
 		} catch (error) {
 			console.log(error)
@@ -28,7 +30,8 @@ const Database = () => {
 	const insertData = async () => {
 		try {
 			const db = await SQLite.openDatabaseAsync('mydb.db')
-			await db.runAsync('INSERT INTO contatos (nome, telefone) VALUES (?,?)', data.nome, data.telefone)
+			// await db.runAsync('INSERT INTO contatos (nome, telefone) VALUES (?,?)', data.nome, data.telefone)
+			await db.runAsync('INSERT INTO contatos (nome, telefone) VALUES (?,?)', [data.nome, data.telefone])
 			setData({ nome: '', telefone: '' })
 			console.log('Dados registrados com sucesso')
 		} catch (error) {
@@ -39,8 +42,8 @@ const Database = () => {
 	const readOne = async () => {
 		try {
 			const db = await SQLite.openDatabaseAsync('mydb.db')
-			const firstRow = await db.getFirstAsync('SELECT * FROM contatos;')
-			console.log(firstRow.id, firstRow.nome, firstRow.telefone)
+			const firstRow = await db.getFirstAsync('SELECT * FROM contatos where id = ?;', 1)
+			console.log(firstRow, firstRow?.id, firstRow?.nome, firstRow?.telefone)
 		} catch (error) {
 			console.log(error)
 		}
@@ -50,6 +53,7 @@ const Database = () => {
 		try {
 			const db = await SQLite.openDatabaseAsync('mydb.db')
 			const allRows = await db.getAllAsync('SELECT * FROM contatos;')
+			console.log(allRows)
 			for (const row of allRows) {
 				console.log(row.id, row.nome, row.telefone)
 			}
