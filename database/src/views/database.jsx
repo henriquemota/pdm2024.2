@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { Button, TextInput } from 'react-native-paper'
 
@@ -15,11 +15,19 @@ const Database = () => {
 			const db = await SQLite.openDatabaseAsync('mydb.db')
 			await db.execAsync(`
 				-- DROP TABLE IF EXISTS contatos;
+				
         CREATE TABLE IF NOT EXISTS contatos (
           id INTEGER PRIMARY KEY NOT NULL, 
           nome TEXT NOT NULL,
           telefone TEXT NOT NULL
         );
+
+				-- insert into contatos (nome, telefone) values 
+				-- ('joao', '123'),
+				-- ('maria', '456'),
+				-- ('bla', '678'),
+				-- ('ble', '789');
+
 				`)
 			console.log('Database criado com sucesso.')
 		} catch (error) {

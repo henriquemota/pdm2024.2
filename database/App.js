@@ -6,7 +6,7 @@ import { PaperProvider } from 'react-native-paper'
 const { Navigator, Screen } = createNativeStackNavigator()
 
 // importacoes das telas
-import Database from './src/views/database'
+import Database from 'views/database'
 
 const App = () => {
 	return (
